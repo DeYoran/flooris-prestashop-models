@@ -42,4 +42,31 @@ trait CompositeKeyModelTrait
 
         return $this->getAttribute($keyName);
     }
+
+
+    /**
+     * Qualify the given column name by the model's table.
+     *
+     * @param  array|string $columns
+     * @return array
+     */
+    public function qualifyColumn($columns)
+    {
+        $columnArray = [];
+
+        if(is_string($columns)){
+            $columns = [$columns];
+        }
+
+        foreach ($columns as $column){
+            if (str_contains($column, '.')) {
+                $columnArray[] = $column;
+            }
+            else{
+                $columnArray[] = $this->getTable().'.' . $column;
+            }
+        }
+
+        return $columnArray[0];
+    }
 }
